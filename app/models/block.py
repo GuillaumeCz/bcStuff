@@ -1,7 +1,6 @@
-import hashlib
 import time
 from merkle import *
-from proof_of_work import *
+from ..helpers.proof_of_work import *
 
 class Block:
 
@@ -14,15 +13,11 @@ class Block:
             'nonce' : 0,
             'merkleRoot' : ""
         }
-        self.transactions = []
-
-    def getHash(self):
-        """ retourne le H du block """
-        return hashlib.sha256(str(self.header)).hexdigest()
+        self.transactionFiles = []
 
     def calculate_merkleRoot(self):
         """ calcul markle tree root et le place dans le header """
-        mt = MerkleTree(str(self.transactions))
+        mt = MerkleTree(str(self.transactionFiles))
         mt.build()
         self.header['merkleRoot'] = mt.root.val.encode('hex')
 
@@ -34,4 +29,3 @@ class Block:
         """ shortcut pour process validation, MAJ merkle + calcul nonce """
         self.calculate_merkleRoot()
         self.calculate_pow()
-

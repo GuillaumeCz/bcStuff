@@ -1,4 +1,3 @@
 Hello
 
-Proof of work :
-- python pow.py*
+- python main.py

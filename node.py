@@ -1,6 +1,7 @@
 from blockchain import Blockchain
 from block import Block
 from proof_of_work import *
+from hashes import *
 
 class Node:
 
@@ -9,18 +10,18 @@ class Node:
         self.memPool = [];
 
     def create_block(self):
-        """ Creation d'un bloc avec tx de memPool """ 
+        """ Creation d'un bloc avec tx de memPool """
         if len(self.blockchain.blocks) != 0:
-            self.new_block = Block(self.blockchain.get_topBlock().getHash())
+            self.new_block = Block(getHashBlock(self.blockchain.get_topBlock()))
         else:
             self.new_block = Block('00')
-        
+
         for tx in self.memPool:
-            self.new_block.transactions.append(tx)
+            self.new_block.transactionFiles.append(tx)
 
         self.clear_memPool()
-    
-    def add_tx(self, tx_pf):
+
+    def add_fileTx(self, tx_pf):
         """ Ajout d'une tx dans memPool """
         self.memPool.append(tx_pf)
 
@@ -38,8 +39,7 @@ class Node:
         self.blockchain.add_block(self.new_block)
 
     def process(self):
-        """ shortcut pour exec process crea + minage + ajout dans bc """ 
+        """ shortcut pour exec process crea + minage + ajout dans bc """
         self.create_block()
         self.mine()
         self.add_blockToBlockchain()
-

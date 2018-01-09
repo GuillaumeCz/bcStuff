@@ -1,23 +1,22 @@
-from block import Block 
+from hashes import *
+from block import Block
 
 class Blockchain:
     blocks = []
-    
+
     def add_block(self, block_pf):
-        """ Ajoute un block en param à la chaine de blocks """
+        """ Ajoute un block en param a la chaine de blocks """
 
         # test si il s'agit du bloc genesis
         if len(self.blocks) != 0:
-            # check si previous H est coherent avant ajout a chaine 
+            # check si previous H est coherent avant ajout a chaine
             if self.check_previousBlockH(block_pf.header['prevBlockH']):
-                block_pf.validateSelf()
                 self.blocks.append(block_pf)
             else:
                 print "== Probleme de parent"
                 print "= %s" % block_pf.header['prevBlockH']
-                print "= %s" % self.get_topBlock().getHash()
+                print "= %s" % getHashBlock(self.get_topBlock())
         else:
-            block_pf.validateSelf()
             self.blocks.append(block_pf)
 
     def get_topBlock(self):
@@ -26,7 +25,7 @@ class Blockchain:
 
     def check_previousBlockH(self, previousBlockH):
         """ verification si le H du bloc parent du nouveau bloc correspond a celui du dernier bloc de la chaine """
-        if self.get_topBlock().getHash() == previousBlockH:
+        if getHashBlock(self.get_topBlock()) == previousBlockH:
             return True
         else:
             return False
@@ -36,10 +35,32 @@ class Blockchain:
         for i in range(1, len(self.blocks)):
             prev_block = self.blocks[i-1]
             cur_block = self.blocks[i]
-            if cur_block.header['prevBlockH'] != prev_block.getHash():
+            if cur_block.header['prevBlockH'] != getHashBlock(prev_block):
                 return False
         return True
-    
+
+    def getBlock(self, blocHash_pf):
+        for block in self.blocks:
+            if getHashBlock(block) == blocHash_pf:
+                return block
+        return None
+
+    def getTx(self, txHash_pf):
+        for block in self.blocks:
+            for tx in block.transactionFiles:
+                if getHash(tx) == txHash_pf:
+                    return tx
+        return None
+
+
+    def isInBlockchain(self, txHash_pf):
+        for block in self.blocks:
+            for tx in block.transactionFiles:
+                if getHash(tx) == txHash_pf:
+                    return True
+
+        return False
+
     def display_blocks(self):
         """ Affichage des blocks de la chaine """
         buf = ""
@@ -47,10 +68,9 @@ class Blockchain:
 
         for block in self.blocks:
             buf += "Block N. %d\n" % cpt
-            buf += "H \t%s\n" % block.getHash()
+            buf += "H \t%s\n" % getHashBlock(block)
             buf += "Header \t%s \n\n" % str(block.header)
             cpt += 1
 
         buf += "Is chain valid ? %r" % self.chainIsValid()
         print buf
-

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="block_content grid four column">
+  <div style="width:30%;">
+    {% for block in blockchain.blocks %}
+  <table class="ui celled striped table column">
+    <thead>
+      <tr><th colspan="3">{{ hashes[loop.index0] }}</th></tr>
+    </thead>
+    <tbody>
+      {% for attribute in block.header %}
+      <tr>
+        <td class="collapsing">
+          {{ attribute }}
+        </td>
+        <td>
+          {% if block.header[attribute].__toString|length > 10 %}
+            {{ block.header[attribute]|truncate(10, false, '...') }}
+          {% else %}
+            {{ block.header[attribute] }}
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}
