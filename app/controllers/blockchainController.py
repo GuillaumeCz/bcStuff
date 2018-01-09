@@ -2,7 +2,7 @@ from flask import render_template
 from ..models.blockchain import *
 from ..helpers.proof_of_work import *
 from ..helpers.hashes import *
-from block import Block
+from ..models.block import Block
 
 blockchain = Blockchain()
 t_hashes = []
