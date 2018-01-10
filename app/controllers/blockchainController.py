@@ -1,15 +1,16 @@
 from flask import render_template
-from ..models.blockchain import *
-from ..helpers.proof_of_work import *
-from ..helpers.hashes import *
+from ..models.blockchain import Blockchain
+from ..helpers.hashes import getHashBlock
 from ..models.block import Block
 
 blockchain = Blockchain()
 t_hashes = []
 
+
 def mine(block):
     """ Minage, renvoie bloc finalise et pret a envoyer dans bc """
     return block.validateSelf()
+
 
 def create_block():
     if len(blockchain.blocks) != 0:
@@ -21,7 +22,12 @@ def create_block():
     t_hashes.append(getHashBlock(new_block))
     blockchain.add_block(new_block)
 
+
 def blockchainCtrl():
     create_block()
     create_block()
-    return render_template('blockchain.html', title="Blockchain", blockchain=blockchain, hashes=t_hashes)
+    return render_template(
+        'blockchain.html',
+        title="Blockchain",
+        blockchain=blockchain,
+        hashes=t_hashes)

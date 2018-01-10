@@ -1,23 +1,17 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="block_content grid">
-  <table class="ui celled striped table">
-    <thead>
-      <tr><th colspan="3">{{ block_hash }}</th></tr>
-    </thead>
-    <tbody>
-      {% for attribute in block.header %}
-      <tr>
-        <td class="collapsing">
-          {{ attribute }}
-        </td>
-        <td>
-          {{ block.header[attribute] }}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
+<table class="ui celled striped table">
+  <thead>
+    <tr><th colspan="3">{{ block_hash }}</th></tr>
+  </thead>
+  <tbody>
+    {% for attribute in block.header %}
+    <tr>
+      <td class="collapsing">
+        {{ attribute }}
+      </td>
+      <td>
+        {{ block.header[attribute] }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

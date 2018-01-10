@@ -1,9 +1,7 @@
-# example of proof-of-work
-
 import hashlib
-import time
 
-max_nonce = 2 ** 32 # 4 billion
+max_nonce = 2 ** 32   # 4 billion
+
 
 def proof_of_work(header, difficulty_bits):
     target = 2 ** (256-difficulty_bits)
@@ -19,4 +17,4 @@ def proof_of_work(header, difficulty_bits):
             return nonce
 
     print "Fail after %d (max_nonce) tries" % nonce
-    return  nonce
+    return nonce

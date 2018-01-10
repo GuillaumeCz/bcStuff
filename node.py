@@ -1,18 +1,19 @@
 from blockchain import Blockchain
 from block import Block
-from proof_of_work import *
-from hashes import *
+from hashes import getHashBlock
+
 
 class Node:
 
     def __init__(self):
         self.blockchain = Blockchain()
-        self.memPool = [];
+        self.memPool = []
 
     def create_block(self):
         """ Creation d'un bloc avec tx de memPool """
         if len(self.blockchain.blocks) != 0:
-            self.new_block = Block(getHashBlock(self.blockchain.get_topBlock()))
+            self.new_block = Block(
+                getHashBlock(self.blockchain.get_topBlock()))
         else:
             self.new_block = Block('00')
 

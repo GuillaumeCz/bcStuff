@@ -1,8 +1,7 @@
 from fileTransaction import FileTransaction
-from node import Node
+
 
 class Wallet:
-
     def __init__(self, node_pf):
         self.fileTransactions = []
         self.nodes = [node_pf]

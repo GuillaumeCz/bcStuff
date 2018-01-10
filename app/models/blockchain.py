@@ -1,5 +1,5 @@
-from hashes import *
-from block import Block
+from ..helpers.hashes import getHashBlock, getHash
+
 
 class Blockchain:
     blocks = []
@@ -24,14 +24,16 @@ class Blockchain:
         return self.blocks[len(self.blocks)-1]
 
     def check_previousBlockH(self, previousBlockH):
-        """ verification si le H du bloc parent du nouveau bloc correspond a celui du dernier bloc de la chaine """
+        """ verification si le H du bloc parent du nouveau bloc correspond
+        a celui du dernier bloc de la chaine """
         if getHashBlock(self.get_topBlock()) == previousBlockH:
             return True
         else:
             return False
 
     def chainIsValid(self):
-        """ Verification que chaque bloc reference bien celui le precedant dans la chaine """
+        """ Verification que chaque bloc reference
+        bien celui le precedant dans la chaine """
         for i in range(1, len(self.blocks)):
             prev_block = self.blocks[i-1]
             cur_block = self.blocks[i]
@@ -51,7 +53,6 @@ class Blockchain:
                 if getHash(tx) == txHash_pf:
                     return tx
         return None
-
 
     def isInBlockchain(self, txHash_pf):
         for block in self.blocks:

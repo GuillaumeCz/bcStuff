@@ -1,4 +1,3 @@
-
 class FileTransaction:
     def __init__(self, path):
         self.fileIn = open(path, 'r')
